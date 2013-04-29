@@ -1,0 +1,69 @@
+<?php
+
+/**
+ * @file
+ * Main file of Image Style Exclude module.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function image_style_exclude_menu() {
+  $items = array();
+
+  $items['admin/config/media/image-styles/exclude'] = array(
+    'title' => 'Exclude',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('image_style_exclude_config'),
+    'access arguments' => array('administer robots.txt'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 2,
+  );
+
+  return $items;
+}
+
+/**
+ * Configuration form.
+ */
+function image_style_exclude_config($form, $form_state) {
+  $form = array();
+
+  $form['image_style_exclude'] = array(
+    '#title' => t('Excluded image styles'),
+    '#type' => 'checkboxes',
+    '#options' => image_style_options(FALSE),
+    '#default_value' => variable_get('image_style_exclude', array()),
+    '#description' => t('Select image styles which should be excluded from indexing.'),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Implements hook_robotstxt().
+ */
+function image_style_exclude_robotstxt() {
+  $excluded = array();
+  $image_style_exclude = variable_get('image_style_exclude', array());
+  $styles_dir = variable_get('file_public_path', conf_path() . '/files') . '/styles';
+
+  // Iterate all image styles and check whether it is excluded or not.
+  foreach ($image_style_exclude as $image_style => $exclude) {
+    if ($exclude) {
+      $excluded[] = 'Disallow: /' . $styles_dir . '/' . $image_style . '/';
+    }
+  }
+
+  // If all image styles should be excluded the whole styles directory
+  // will be added to the robots.txt file.
+  $styles = image_style_options(FALSE);
+  if (count($styles) == count($excluded)) {
+    $excluded = array('Disallow: /' . $styles_dir . '/');
+  }
+
+  // Prepending a comment.
+  array_unshift($excluded, '# Image styles');
+
+  return $excluded;
+}

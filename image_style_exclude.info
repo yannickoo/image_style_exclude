@@ -1,0 +1,5 @@
+name = Image Style Exclude
+description = Excludes styled images from search engines.
+core = 7.x
+dependencies[] = robotstxt
+configure = admin/config/media/image-styles/exclude
