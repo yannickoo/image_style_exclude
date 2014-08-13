@@ -8,7 +8,8 @@ INTRODUCTION
 ------------
 
 Current Maintainers:
-  Yannick Leyendecker (http://drupal.org/user/531118)
+
+* [yannickoo](http://drupal.org/user/531118)
 
 This module allows you to exclude image styles from search engines.
 
