@@ -1,11 +1,4 @@
-CONTENTS OF THIS FILE
----------------------
-
- * Introduction
- * Installation
-
-INTRODUCTION
-------------
+# Introduction
 
 Current Maintainers:
 
@@ -13,8 +6,7 @@ Current Maintainers:
 
 This module allows you to exclude image styles from search engines.
 
-INSTALLATION
-------------
+# Installation
 
 1. Download the RobotsTxt [1] module.
 
